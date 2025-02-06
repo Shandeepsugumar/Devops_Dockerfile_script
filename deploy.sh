@@ -17,8 +17,6 @@ docker tag test shandeep04/docker_jenkins_task2
 docker push shandeep04/docker_jenkins_task2
 
 # Step 1: Start Minikube (if not already running)
-minikube start
-
 kubectl create deployment shandeep --image=shandeep04/docker_jenkins_task2 --port=80
 
-minikube service shandeep
+kubectl expose deployment shandeep --type=NodePort --port=80
