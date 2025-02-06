@@ -19,51 +19,6 @@ docker push shandeep04/docker_jenkins_task2
 # Step 1: Start Minikube (if not already running)
 minikube start
 
-# Step 2: Pull the image from Docker Hub
-docker pull shandeep04/docker_jenkins_task2:latest
+kubectl create deployment shandeep --image=shandeep04/docker_jenkins_task2 --port=80
 
-# Step 3: Create a Kubernetes deployment YAML file
-cat <<EOF > deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: my-app
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: my-app
-  template:
-    metadata:
-      labels:
-        app: my-app
-    spec:
-      containers:
-      - name: my-app
-        image: shandeep04/docker_jenkins_task2:latest
-        ports:
-        - containerPort: 80
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: my-app
-spec:
-  type: NodePort
-  ports:
-  - port: 80
-    targetPort: 80
-    nodePort: 30000
-  selector:
-    app: my-app
-EOF
-
-# Step 4: Apply the deployment and service to the Minikube cluster
-kubectl apply -f deployment.yaml
-
-# Step 5: Verify the deployment
-echo "Waiting for the deployment to be ready..."
-kubectl wait --for=condition=available --timeout=300s deployment/my-app
-
-# Step 6: Get the Minikube service URL
-minikube service my-app --url
+minikube service shandeep
